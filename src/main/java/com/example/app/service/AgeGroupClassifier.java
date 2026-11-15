@@ -25,7 +25,7 @@ public class AgeGroupClassifier {
         if (age <= 12) {
             return AgeGroup.CHILD;
         }
-        if (age > 65) {
+        if (age >= 65) {
             return AgeGroup.SENIOR;
         }
         return AgeGroup.ADULT;

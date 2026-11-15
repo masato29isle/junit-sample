@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.example.app.model.AgeGroup;
 import org.junit.jupiter.api.DisplayName;
@@ -22,9 +23,50 @@ class AgeGroupClassifierTest {
         assertEquals(AgeGroup.ADULT, actual);
     }
 
-    // TODO(Step 2): 10歳は CHILD になることを確かめるテストを書く
+    // Step 2: 代表的な値のテスト
+    @Test
+    void classify_age10_returnsChild() {
+        AgeGroupClassifier classifier = new AgeGroupClassifier();
 
-    // TODO(Step 3): 境界（12歳と13歳、64歳と65歳）のテストを書く
+        AgeGroup actual = classifier.classify(10);
 
-    // TODO(Step 4): 負の数を渡すと IllegalArgumentException になることを確かめるテストを書く
+        assertEquals(AgeGroup.CHILD, actual);
+    }
+
+    // Step 3: 境界のテスト。区分が切り替わる前後の値を確かめる
+    @Test
+    void classify_age12_returnsChild() {
+        AgeGroupClassifier classifier = new AgeGroupClassifier();
+
+        assertEquals(AgeGroup.CHILD, classifier.classify(12));
+    }
+
+    @Test
+    void classify_age13_returnsAdult() {
+        AgeGroupClassifier classifier = new AgeGroupClassifier();
+
+        assertEquals(AgeGroup.ADULT, classifier.classify(13));
+    }
+
+    @Test
+    void classify_age64_returnsAdult() {
+        AgeGroupClassifier classifier = new AgeGroupClassifier();
+
+        assertEquals(AgeGroup.ADULT, classifier.classify(64));
+    }
+
+    @Test
+    void classify_age65_returnsSenior() {
+        AgeGroupClassifier classifier = new AgeGroupClassifier();
+
+        assertEquals(AgeGroup.SENIOR, classifier.classify(65));
+    }
+
+    // Step 4: 異常系のテスト。例外が投げられることを確かめる
+    @Test
+    void classify_negativeAge_throwsException() {
+        AgeGroupClassifier classifier = new AgeGroupClassifier();
+
+        assertThrows(IllegalArgumentException.class, () -> classifier.classify(-1));
+    }
 }
