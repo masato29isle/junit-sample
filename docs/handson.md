@@ -111,6 +111,7 @@ mvn test
 class AgeGroupClassifierTest {
 
     @Test
+    @DisplayName("30歳は ADULT になる")
     void classify_age30_returnsAdult() {
         // 準備: テスト対象を用意する
         AgeGroupClassifier classifier = new AgeGroupClassifier();
@@ -130,6 +131,9 @@ class AgeGroupClassifierTest {
 - `assertEquals(期待値, 実際の値)` は、2つが等しければ何も起きず（成功）、違えばテストを失敗させます
 
 メソッド名は `対象_条件_期待する結果` の形にしています（`classify` に `age30` を渡すと `returnsAdult`）。名前だけで何を確かめているテストかが分かるようにするためです。
+
+`@DisplayName` は、テストに付ける表示名です。IntelliJ IDEA や VS Code でテストを実行すると、結果の一覧にメソッド名の代わりにこの名前が出ます。
+`mvn test` のコンソール出力には表示名ではなくメソッド名が出るので、このハンズオンで書き足すテストには付けなくて構いません。
 
 **期待される結果**: 「このテストは何を確かめているか」を一言で説明できる
 
@@ -216,23 +220,23 @@ mvn test
 org.opentest4j.AssertionFailedError: expected: <SENIOR> but was: <ADULT>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	...
-	at com.example.app.service.AgeGroupClassifierTest.classify_age65_returnsSenior(AgeGroupClassifierTest.java:59)
+	at com.example.app.service.AgeGroupClassifierTest.classify_age65_returnsSenior(AgeGroupClassifierTest.java:61)
 	...
 
 [ERROR] Failures:
-[ERROR]   AgeGroupClassifierTest.classify_age65_returnsSenior:59 expected: <SENIOR> but was: <ADULT>
+[ERROR]   AgeGroupClassifierTest.classify_age65_returnsSenior:61 expected: <SENIOR> but was: <ADULT>
 [INFO]
 [ERROR] Tests run: 6, Failures: 1, Errors: 0, Skipped: 0
 [INFO]
 [INFO] BUILD FAILURE
 ```
 
-（行番号の `59` は、テストを書いた位置によって変わります。）
+（行番号の `61` は、テストを書いた位置によって変わります。）
 
 出力は長いですが、読むのは `Failures:` の下の **1行** だけで足ります。
 
 ```
-AgeGroupClassifierTest.classify_age65_returnsSenior:59 expected: <SENIOR> but was: <ADULT>
+AgeGroupClassifierTest.classify_age65_returnsSenior:61 expected: <SENIOR> but was: <ADULT>
 ```
 
 - **どのテストが**: `classify_age65_returnsSenior`（65歳を渡すテスト）
